@@ -42,6 +42,12 @@ partial class Form1
         toolStripButton6 = new ToolStripButton();
         panel1 = new Panel();
         groupBox4 = new GroupBox();
+        line = new Button();
+        romb = new Button();
+        triangle = new Button();
+        rectangle = new Button();
+        square = new Button();
+        circle = new Button();
         groupBox3 = new GroupBox();
         trackBar1 = new TrackBar();
         groupBox2 = new GroupBox();
@@ -62,12 +68,6 @@ partial class Form1
         button10 = new Button();
         colorDialog1 = new ColorDialog();
         saveFileDialog1 = new SaveFileDialog();
-        button15 = new Button();
-        button16 = new Button();
-        button17 = new Button();
-        button18 = new Button();
-        button19 = new Button();
-        button20 = new Button();
         ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
         toolStrip1.SuspendLayout();
         panel1.SuspendLayout();
@@ -87,6 +87,7 @@ partial class Form1
         pictureBox1.Size = new Size(1100, 659);
         pictureBox1.TabIndex = 0;
         pictureBox1.TabStop = false;
+        pictureBox1.Paint += pictureBox1_Paint;
         pictureBox1.MouseDown += pictureBox1_MouseDown;
         pictureBox1.MouseMove += pictureBox1_MouseMove;
         pictureBox1.MouseUp += pictureBox1_MouseUp;
@@ -189,12 +190,12 @@ partial class Form1
         // 
         // groupBox4
         // 
-        groupBox4.Controls.Add(button20);
-        groupBox4.Controls.Add(button19);
-        groupBox4.Controls.Add(button18);
-        groupBox4.Controls.Add(button17);
-        groupBox4.Controls.Add(button16);
-        groupBox4.Controls.Add(button15);
+        groupBox4.Controls.Add(line);
+        groupBox4.Controls.Add(romb);
+        groupBox4.Controls.Add(triangle);
+        groupBox4.Controls.Add(rectangle);
+        groupBox4.Controls.Add(square);
+        groupBox4.Controls.Add(circle);
         groupBox4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
         groupBox4.ForeColor = SystemColors.GrayText;
         groupBox4.Location = new Point(501, 0);
@@ -203,6 +204,102 @@ partial class Form1
         groupBox4.TabIndex = 21;
         groupBox4.TabStop = false;
         groupBox4.Text = "Shapes";
+        // 
+        // line
+        // 
+        line.BackgroundImage = Properties.Resources.diagonal_line;
+        line.BackgroundImageLayout = ImageLayout.Stretch;
+        line.Cursor = Cursors.Hand;
+        line.FlatAppearance.BorderSize = 0;
+        line.FlatAppearance.MouseDownBackColor = Color.Lavender;
+        line.FlatAppearance.MouseOverBackColor = Color.Lavender;
+        line.FlatStyle = FlatStyle.Flat;
+        line.Location = new Point(101, 55);
+        line.Name = "line";
+        line.Size = new Size(25, 25);
+        line.TabIndex = 22;
+        line.UseVisualStyleBackColor = true;
+        line.Click += line_Click;
+        // 
+        // romb
+        // 
+        romb.BackgroundImage = Properties.Resources.priority;
+        romb.BackgroundImageLayout = ImageLayout.Stretch;
+        romb.Cursor = Cursors.Hand;
+        romb.FlatAppearance.BorderSize = 0;
+        romb.FlatAppearance.MouseDownBackColor = Color.Lavender;
+        romb.FlatAppearance.MouseOverBackColor = Color.Lavender;
+        romb.FlatStyle = FlatStyle.Flat;
+        romb.Location = new Point(61, 55);
+        romb.Name = "romb";
+        romb.Size = new Size(25, 25);
+        romb.TabIndex = 21;
+        romb.UseVisualStyleBackColor = true;
+        romb.Click += romb_Click;
+        // 
+        // triangle
+        // 
+        triangle.BackgroundImage = Properties.Resources.chlorine;
+        triangle.BackgroundImageLayout = ImageLayout.Stretch;
+        triangle.Cursor = Cursors.Hand;
+        triangle.FlatAppearance.BorderSize = 0;
+        triangle.FlatAppearance.MouseDownBackColor = Color.Lavender;
+        triangle.FlatAppearance.MouseOverBackColor = Color.Lavender;
+        triangle.FlatStyle = FlatStyle.Flat;
+        triangle.Location = new Point(20, 55);
+        triangle.Name = "triangle";
+        triangle.Size = new Size(25, 25);
+        triangle.TabIndex = 20;
+        triangle.UseVisualStyleBackColor = true;
+        triangle.Click += triangle_Click;
+        // 
+        // rectangle
+        // 
+        rectangle.BackgroundImage = Properties.Resources.rectangle;
+        rectangle.BackgroundImageLayout = ImageLayout.Stretch;
+        rectangle.Cursor = Cursors.Hand;
+        rectangle.FlatAppearance.BorderSize = 0;
+        rectangle.FlatAppearance.MouseDownBackColor = Color.Lavender;
+        rectangle.FlatAppearance.MouseOverBackColor = Color.Lavender;
+        rectangle.FlatStyle = FlatStyle.Flat;
+        rectangle.Location = new Point(101, 24);
+        rectangle.Name = "rectangle";
+        rectangle.Size = new Size(25, 25);
+        rectangle.TabIndex = 19;
+        rectangle.UseVisualStyleBackColor = true;
+        rectangle.Click += rectangle_Click;
+        // 
+        // square
+        // 
+        square.BackgroundImage = Properties.Resources.square;
+        square.BackgroundImageLayout = ImageLayout.Stretch;
+        square.Cursor = Cursors.Hand;
+        square.FlatAppearance.BorderSize = 0;
+        square.FlatAppearance.MouseDownBackColor = Color.Lavender;
+        square.FlatAppearance.MouseOverBackColor = Color.Lavender;
+        square.FlatStyle = FlatStyle.Flat;
+        square.Location = new Point(61, 24);
+        square.Name = "square";
+        square.Size = new Size(25, 25);
+        square.TabIndex = 18;
+        square.UseVisualStyleBackColor = true;
+        square.Click += square_Click;
+        // 
+        // circle
+        // 
+        circle.BackgroundImage = Properties.Resources.circle_ring;
+        circle.BackgroundImageLayout = ImageLayout.Stretch;
+        circle.Cursor = Cursors.Hand;
+        circle.FlatAppearance.BorderSize = 0;
+        circle.FlatAppearance.MouseDownBackColor = Color.Lavender;
+        circle.FlatAppearance.MouseOverBackColor = Color.Lavender;
+        circle.FlatStyle = FlatStyle.Flat;
+        circle.Location = new Point(20, 24);
+        circle.Name = "circle";
+        circle.Size = new Size(25, 25);
+        circle.TabIndex = 17;
+        circle.UseVisualStyleBackColor = true;
+        circle.Click += circle_Click;
         // 
         // groupBox3
         // 
@@ -459,96 +556,6 @@ partial class Form1
         button10.UseVisualStyleBackColor = false;
         button10.Click += button3_Click;
         // 
-        // button15
-        // 
-        button15.BackgroundImage = Properties.Resources.circle_ring;
-        button15.BackgroundImageLayout = ImageLayout.Stretch;
-        button15.Cursor = Cursors.Hand;
-        button15.FlatAppearance.BorderSize = 0;
-        button15.FlatAppearance.MouseDownBackColor = Color.Lavender;
-        button15.FlatAppearance.MouseOverBackColor = Color.Lavender;
-        button15.FlatStyle = FlatStyle.Flat;
-        button15.Location = new Point(20, 24);
-        button15.Name = "button15";
-        button15.Size = new Size(25, 25);
-        button15.TabIndex = 17;
-        button15.UseVisualStyleBackColor = true;
-        // 
-        // button16
-        // 
-        button16.BackgroundImage = Properties.Resources.square;
-        button16.BackgroundImageLayout = ImageLayout.Stretch;
-        button16.Cursor = Cursors.Hand;
-        button16.FlatAppearance.BorderSize = 0;
-        button16.FlatAppearance.MouseDownBackColor = Color.Lavender;
-        button16.FlatAppearance.MouseOverBackColor = Color.Lavender;
-        button16.FlatStyle = FlatStyle.Flat;
-        button16.Location = new Point(61, 24);
-        button16.Name = "button16";
-        button16.Size = new Size(25, 25);
-        button16.TabIndex = 18;
-        button16.UseVisualStyleBackColor = true;
-        // 
-        // button17
-        // 
-        button17.BackgroundImage = Properties.Resources.rectangle;
-        button17.BackgroundImageLayout = ImageLayout.Stretch;
-        button17.Cursor = Cursors.Hand;
-        button17.FlatAppearance.BorderSize = 0;
-        button17.FlatAppearance.MouseDownBackColor = Color.Lavender;
-        button17.FlatAppearance.MouseOverBackColor = Color.Lavender;
-        button17.FlatStyle = FlatStyle.Flat;
-        button17.Location = new Point(101, 24);
-        button17.Name = "button17";
-        button17.Size = new Size(25, 25);
-        button17.TabIndex = 19;
-        button17.UseVisualStyleBackColor = true;
-        // 
-        // button18
-        // 
-        button18.BackgroundImage = Properties.Resources.chlorine;
-        button18.BackgroundImageLayout = ImageLayout.Stretch;
-        button18.Cursor = Cursors.Hand;
-        button18.FlatAppearance.BorderSize = 0;
-        button18.FlatAppearance.MouseDownBackColor = Color.Lavender;
-        button18.FlatAppearance.MouseOverBackColor = Color.Lavender;
-        button18.FlatStyle = FlatStyle.Flat;
-        button18.Location = new Point(20, 55);
-        button18.Name = "button18";
-        button18.Size = new Size(25, 25);
-        button18.TabIndex = 20;
-        button18.UseVisualStyleBackColor = true;
-        // 
-        // button19
-        // 
-        button19.BackgroundImage = Properties.Resources.priority;
-        button19.BackgroundImageLayout = ImageLayout.Stretch;
-        button19.Cursor = Cursors.Hand;
-        button19.FlatAppearance.BorderSize = 0;
-        button19.FlatAppearance.MouseDownBackColor = Color.Lavender;
-        button19.FlatAppearance.MouseOverBackColor = Color.Lavender;
-        button19.FlatStyle = FlatStyle.Flat;
-        button19.Location = new Point(61, 55);
-        button19.Name = "button19";
-        button19.Size = new Size(25, 25);
-        button19.TabIndex = 21;
-        button19.UseVisualStyleBackColor = true;
-        // 
-        // button20
-        // 
-        button20.BackgroundImage = Properties.Resources.diagonal_line;
-        button20.BackgroundImageLayout = ImageLayout.Stretch;
-        button20.Cursor = Cursors.Hand;
-        button20.FlatAppearance.BorderSize = 0;
-        button20.FlatAppearance.MouseDownBackColor = Color.Lavender;
-        button20.FlatAppearance.MouseOverBackColor = Color.Lavender;
-        button20.FlatStyle = FlatStyle.Flat;
-        button20.Location = new Point(101, 55);
-        button20.Name = "button20";
-        button20.Size = new Size(25, 25);
-        button20.TabIndex = 22;
-        button20.UseVisualStyleBackColor = true;
-        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -608,10 +615,10 @@ partial class Form1
     private GroupBox groupBox3;
     private GroupBox groupBox2;
     private GroupBox groupBox4;
-    private Button button20;
-    private Button button19;
-    private Button button18;
-    private Button button17;
-    private Button button16;
-    private Button button15;
+    private Button line;
+    private Button romb;
+    private Button triangle;
+    private Button rectangle;
+    private Button square;
+    private Button circle;
 }
