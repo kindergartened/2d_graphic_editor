@@ -32,8 +32,15 @@ partial class Form1
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
         pictureBox1 = new PictureBox();
         toolStrip1 = new ToolStrip();
+        toolStripSplitButton1 = new ToolStripButton();
         toolStripButton1 = new ToolStripButton();
+        toolStripButton2 = new ToolStripButton();
+        toolStripSeparator1 = new ToolStripSeparator();
+        toolStripButton3 = new ToolStripButton();
+        toolStripButton4 = new ToolStripButton();
         panel1 = new Panel();
+        button12 = new Button();
+        button11 = new Button();
         label2 = new Label();
         trackBar1 = new TrackBar();
         label1 = new Label();
@@ -48,8 +55,6 @@ partial class Form1
         button2 = new Button();
         button1 = new Button();
         colorDialog1 = new ColorDialog();
-        toolStripSplitButton1 = new ToolStripButton();
-        toolStripButton2 = new ToolStripButton();
         saveFileDialog1 = new SaveFileDialog();
         ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
         toolStrip1.SuspendLayout();
@@ -72,12 +77,22 @@ partial class Form1
         // 
         // toolStrip1
         // 
-        toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripSplitButton1, toolStripButton1, toolStripButton2 });
+        toolStrip1.BackColor = Color.White;
+        toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripSplitButton1, toolStripButton1, toolStripButton2, toolStripSeparator1, toolStripButton3, toolStripButton4 });
         toolStrip1.Location = new Point(0, 0);
         toolStrip1.Name = "toolStrip1";
         toolStrip1.Size = new Size(1100, 25);
         toolStrip1.TabIndex = 1;
         toolStrip1.Text = "toolStrip1";
+        // 
+        // toolStripSplitButton1
+        // 
+        toolStripSplitButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+        toolStripSplitButton1.Image = (Image)resources.GetObject("toolStripSplitButton1.Image");
+        toolStripSplitButton1.ImageTransparentColor = Color.Magenta;
+        toolStripSplitButton1.Name = "toolStripSplitButton1";
+        toolStripSplitButton1.Size = new Size(59, 22);
+        toolStripSplitButton1.Text = "Open file";
         // 
         // toolStripButton1
         // 
@@ -89,8 +104,46 @@ partial class Form1
         toolStripButton1.Text = "Clear layout";
         toolStripButton1.Click += toolStripButton1_Click;
         // 
+        // toolStripButton2
+        // 
+        toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image;
+        toolStripButton2.Image = Properties.Resources.save;
+        toolStripButton2.ImageTransparentColor = Color.Magenta;
+        toolStripButton2.Name = "toolStripButton2";
+        toolStripButton2.Size = new Size(23, 22);
+        toolStripButton2.Text = "Save file";
+        toolStripButton2.Click += toolStripButton2_Click;
+        // 
+        // toolStripSeparator1
+        // 
+        toolStripSeparator1.Name = "toolStripSeparator1";
+        toolStripSeparator1.Size = new Size(6, 25);
+        // 
+        // toolStripButton3
+        // 
+        toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Image;
+        toolStripButton3.Image = Properties.Resources.rotate_left;
+        toolStripButton3.ImageTransparentColor = Color.Magenta;
+        toolStripButton3.Name = "toolStripButton3";
+        toolStripButton3.Size = new Size(23, 22);
+        toolStripButton3.Text = "toolStripButton3";
+        toolStripButton3.Click += toolStripButton3_Click;
+        // 
+        // toolStripButton4
+        // 
+        toolStripButton4.DisplayStyle = ToolStripItemDisplayStyle.Image;
+        toolStripButton4.ForeColor = SystemColors.ActiveCaptionText;
+        toolStripButton4.Image = Properties.Resources.rotate_right;
+        toolStripButton4.ImageTransparentColor = Color.Magenta;
+        toolStripButton4.Name = "toolStripButton4";
+        toolStripButton4.Size = new Size(23, 22);
+        toolStripButton4.Text = "toolStripButton4";
+        // 
         // panel1
         // 
+        panel1.BackColor = Color.Lavender;
+        panel1.Controls.Add(button12);
+        panel1.Controls.Add(button11);
         panel1.Controls.Add(label2);
         panel1.Controls.Add(trackBar1);
         panel1.Controls.Add(label1);
@@ -110,21 +163,55 @@ partial class Form1
         panel1.Size = new Size(1100, 90);
         panel1.TabIndex = 2;
         // 
+        // button12
+        // 
+        button12.BackgroundImage = Properties.Resources.brush__2_;
+        button12.BackgroundImageLayout = ImageLayout.Stretch;
+        button12.Cursor = Cursors.Hand;
+        button12.FlatAppearance.BorderSize = 0;
+        button12.FlatAppearance.MouseDownBackColor = Color.Lavender;
+        button12.FlatAppearance.MouseOverBackColor = Color.Lavender;
+        button12.FlatStyle = FlatStyle.Flat;
+        button12.Location = new Point(190, 12);
+        button12.Name = "button12";
+        button12.Size = new Size(25, 25);
+        button12.TabIndex = 14;
+        button12.UseVisualStyleBackColor = true;
+        button12.Click += button12_Click;
+        // 
+        // button11
+        // 
+        button11.BackgroundImage = Properties.Resources.eraser;
+        button11.BackgroundImageLayout = ImageLayout.Stretch;
+        button11.Cursor = Cursors.Hand;
+        button11.FlatAppearance.BorderSize = 0;
+        button11.FlatAppearance.MouseDownBackColor = Color.Lavender;
+        button11.FlatAppearance.MouseOverBackColor = Color.Lavender;
+        button11.FlatStyle = FlatStyle.Flat;
+        button11.Location = new Point(190, 43);
+        button11.Name = "button11";
+        button11.Size = new Size(25, 25);
+        button11.TabIndex = 13;
+        button11.UseVisualStyleBackColor = false;
+        button11.Click += button11_Click;
+        // 
         // label2
         // 
         label2.AutoSize = true;
         label2.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
         label2.ForeColor = SystemColors.ControlDarkDark;
-        label2.Location = new Point(214, 71);
+        label2.Location = new Point(256, 71);
         label2.Name = "label2";
         label2.Size = new Size(105, 16);
         label2.TabIndex = 12;
         label2.Text = "Brush thickness";
+        label2.Click += label2_Click;
         // 
         // trackBar1
         // 
+        trackBar1.Cursor = Cursors.Hand;
         trackBar1.LargeChange = 10;
-        trackBar1.Location = new Point(193, 23);
+        trackBar1.Location = new Point(241, 23);
         trackBar1.Maximum = 20;
         trackBar1.Name = "trackBar1";
         trackBar1.Size = new Size(142, 45);
@@ -145,6 +232,7 @@ partial class Form1
         // button10
         // 
         button10.BackColor = Color.Black;
+        button10.Cursor = Cursors.Hand;
         button10.FlatAppearance.BorderColor = Color.Gray;
         button10.FlatStyle = FlatStyle.Flat;
         button10.Location = new Point(12, 43);
@@ -157,6 +245,7 @@ partial class Form1
         // button9
         // 
         button9.BackColor = Color.FromArgb(128, 128, 255);
+        button9.Cursor = Cursors.Hand;
         button9.FlatAppearance.BorderColor = Color.Gray;
         button9.FlatStyle = FlatStyle.Flat;
         button9.Location = new Point(43, 43);
@@ -169,6 +258,7 @@ partial class Form1
         // button8
         // 
         button8.BackColor = Color.FromArgb(0, 192, 0);
+        button8.Cursor = Cursors.Hand;
         button8.FlatAppearance.BorderColor = Color.Gray;
         button8.FlatStyle = FlatStyle.Flat;
         button8.Location = new Point(74, 43);
@@ -181,6 +271,7 @@ partial class Form1
         // button7
         // 
         button7.BackColor = Color.FromArgb(0, 0, 192);
+        button7.Cursor = Cursors.Hand;
         button7.FlatAppearance.BorderColor = Color.Gray;
         button7.FlatStyle = FlatStyle.Flat;
         button7.Location = new Point(105, 43);
@@ -193,6 +284,7 @@ partial class Form1
         // button6
         // 
         button6.BackColor = Color.Gold;
+        button6.Cursor = Cursors.Hand;
         button6.FlatAppearance.BorderColor = Color.Gray;
         button6.FlatStyle = FlatStyle.Flat;
         button6.Location = new Point(136, 12);
@@ -205,7 +297,11 @@ partial class Form1
         // button5
         // 
         button5.BackColor = Color.Transparent;
+        button5.BackgroundImage = Properties.Resources.paintPalette;
+        button5.BackgroundImageLayout = ImageLayout.Zoom;
+        button5.Cursor = Cursors.Hand;
         button5.FlatAppearance.BorderColor = Color.Gray;
+        button5.FlatAppearance.BorderSize = 0;
         button5.FlatStyle = FlatStyle.Flat;
         button5.Location = new Point(136, 43);
         button5.Name = "button5";
@@ -217,6 +313,7 @@ partial class Form1
         // button4
         // 
         button4.BackColor = SystemColors.Highlight;
+        button4.Cursor = Cursors.Hand;
         button4.FlatAppearance.BorderColor = Color.Gray;
         button4.FlatStyle = FlatStyle.Flat;
         button4.Location = new Point(105, 12);
@@ -228,18 +325,21 @@ partial class Form1
         // 
         // button3
         // 
+        button3.BackColor = Color.White;
+        button3.Cursor = Cursors.Hand;
         button3.FlatAppearance.BorderColor = Color.Gray;
         button3.FlatStyle = FlatStyle.Flat;
         button3.Location = new Point(12, 12);
         button3.Name = "button3";
         button3.Size = new Size(25, 25);
         button3.TabIndex = 2;
-        button3.UseVisualStyleBackColor = true;
+        button3.UseVisualStyleBackColor = false;
         button3.Click += button3_Click;
         // 
         // button2
         // 
         button2.BackColor = Color.Firebrick;
+        button2.Cursor = Cursors.Hand;
         button2.FlatAppearance.BorderColor = Color.Gray;
         button2.FlatStyle = FlatStyle.Flat;
         button2.ForeColor = SystemColors.ControlText;
@@ -253,6 +353,7 @@ partial class Form1
         // button1
         // 
         button1.BackColor = Color.DarkOrange;
+        button1.Cursor = Cursors.Hand;
         button1.FlatAppearance.BorderColor = Color.Gray;
         button1.FlatStyle = FlatStyle.Flat;
         button1.Location = new Point(74, 12);
@@ -261,25 +362,6 @@ partial class Form1
         button1.TabIndex = 0;
         button1.UseVisualStyleBackColor = false;
         button1.Click += button3_Click;
-        // 
-        // toolStripSplitButton1
-        // 
-        toolStripSplitButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
-        toolStripSplitButton1.Image = (Image)resources.GetObject("toolStripSplitButton1.Image");
-        toolStripSplitButton1.ImageTransparentColor = Color.Magenta;
-        toolStripSplitButton1.Name = "toolStripSplitButton1";
-        toolStripSplitButton1.Size = new Size(59, 22);
-        toolStripSplitButton1.Text = "Open file";
-        // 
-        // toolStripButton2
-        // 
-        toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Text;
-        toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
-        toolStripButton2.ImageTransparentColor = Color.Magenta;
-        toolStripButton2.Name = "toolStripButton2";
-        toolStripButton2.Size = new Size(54, 22);
-        toolStripButton2.Text = "Save file";
-        toolStripButton2.Click += toolStripButton2_Click;
         // 
         // Form1
         // 
@@ -324,4 +406,9 @@ partial class Form1
     private ToolStripButton toolStripSplitButton1;
     private ToolStripButton toolStripButton2;
     private SaveFileDialog saveFileDialog1;
+    private ToolStripSeparator toolStripSeparator1;
+    private ToolStripButton toolStripButton3;
+    private ToolStripButton toolStripButton4;
+    private Button button11;
+    private Button button12;
 }

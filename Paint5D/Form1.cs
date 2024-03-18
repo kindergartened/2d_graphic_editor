@@ -8,9 +8,11 @@ public partial class Form1 : Form
     private bool isMouse = false;
 
     private ArrayPoints arrayPoints = new(2);
-    Bitmap map = new(100, 100);
-    Graphics graphics;
-    Pen pen = new(Color.Black, 3f);
+    private Bitmap map = new(100, 100);
+    private Graphics graphics;
+    private Pen pen = new(Color.Black, 3f);
+    private Pen erase = new(Color.White, 6f);
+    private int choosedTool = 1;
 
     private void SetBitMapSize()
     {
@@ -26,6 +28,7 @@ public partial class Form1 : Form
         InitializeComponent();
         SetBitMapSize();
     }
+
 
     private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
     {
@@ -46,9 +49,12 @@ public partial class Form1 : Form
 
         if (arrayPoints.GetPointsCount() >= 2)
         {
-            graphics.DrawLines(pen, arrayPoints.GetPoints());
-            pictureBox1.Image = map;
-            arrayPoints.SetPoint(e.X, e.Y);
+            if (choosedTool == 1 || choosedTool == 2)
+            {
+                graphics.DrawLines(choosedTool == 1 ? pen : erase, arrayPoints.GetPoints());
+                pictureBox1.Image = map;
+                arrayPoints.SetPoint(e.X, e.Y);
+            }
         }
     }
 
@@ -81,12 +87,32 @@ public partial class Form1 : Form
     {
         saveFileDialog1.Filter = "JPG(*.JPG)|*.jpg";
 
-        if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
         {
             if (pictureBox1 != null)
             {
                 pictureBox1.Image.Save(saveFileDialog1.FileName);
             }
         }
+    }
+
+    private void button11_Click(object sender, EventArgs e)
+    {
+        choosedTool = 2;
+    }
+
+    private void button12_Click(object sender, EventArgs e)
+    {
+        choosedTool = 1;
+    }
+
+    private void label2_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void toolStripButton3_Click(object sender, EventArgs e)
+    {
+
     }
 }
