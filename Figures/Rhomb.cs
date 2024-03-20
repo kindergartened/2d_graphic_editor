@@ -7,7 +7,7 @@ public class Rhomb : Shape
     public int Width { get; set; }
     public int Height { get; set; }
 
-    public override void Draw(Graphics graphics)
+    public override void Draw(Graphics? graphics)
     {
         Point point1 = new Point(Center.X, Center.Y - Height / 2);
         Point point2 = new Point(Center.X + Width / 2, Center.Y);

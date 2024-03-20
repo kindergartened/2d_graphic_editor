@@ -7,5 +7,5 @@ public abstract class Shape
     public Point Center { get; set; }
     public Color FillColor { get; set; }
 
-    public abstract void Draw(Graphics graphics);
+    public abstract void Draw(Graphics? graphics);
 }

@@ -6,7 +6,7 @@ public class Line : Shape
 {
     public Point EndPoint { get; set; }
 
-    public override void Draw(Graphics graphics)
+    public override void Draw(Graphics? graphics)
     {
         graphics.DrawLine(new Pen(Color.Black), Center, EndPoint);
     }

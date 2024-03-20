@@ -9,7 +9,7 @@ public partial class Form1 : Form
 
     private readonly ArrayPoints _arrayPoints = new(2);
     private Bitmap _map = new(100, 100);
-    private Graphics _graphics;
+    private Graphics? _graphics;
     private readonly Pen _pen = new(Color.Black, 3f);
     private readonly Pen _erase = new(Color.White, 12f);
     private int _choosedTool;
@@ -92,15 +92,31 @@ public partial class Form1 : Form
             pictureBox1.Image = _map;
             _currentShape = null;
         }
+        else
+        {
+            _arrayPoints.ResetPoints();
+        }
     }
 
     private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
     {
-        if (_isMouse && _currentShape != null)
+        if (!_isMouse) return;
+        if (_currentShape != null)
         {
             // ѕри движении мыши рисуем динамическую фигуру
             _endPoint = e.Location;
             pictureBox1.Invalidate();
+        }
+        else
+        {
+            _arrayPoints.SetPoint(e.X, e.Y);
+            if (_arrayPoints.GetPointsCount() >= 2)
+                if (_choosedTool == 1 || _choosedTool == 2)
+                {
+                    _graphics.DrawLines(_choosedTool == 1 ? _pen : _erase, _arrayPoints.GetPoints());
+                    pictureBox1.Image = _map;
+                    _arrayPoints.SetPoint(e.X, e.Y);
+                }
         }
     }
 
