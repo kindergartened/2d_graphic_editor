@@ -4,10 +4,11 @@ namespace Figures;
 
 public class Line : Shape
 {
+    public Point StartPoint { get; set; }
     public Point EndPoint { get; set; }
 
     public override void Draw(Graphics? graphics)
     {
-        graphics.DrawLine(new Pen(Color.Black), Center, EndPoint);
+        graphics.DrawLine(new Pen(Color.Black), StartPoint, EndPoint);
     }
 }
