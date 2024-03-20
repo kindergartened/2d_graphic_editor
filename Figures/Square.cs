@@ -2,7 +2,7 @@
 
 namespace Figures;
 
-public class Square : Shape
+public class Square : Rectangle
 {
     public int SideLength { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Figures;
 
-public class Circle : Shape
+public class Circle : Ellipse
 {
     public int Radius { get; set; }
 

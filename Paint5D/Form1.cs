@@ -3,6 +3,14 @@ using Rectangle = System.Drawing.Rectangle;
 
 namespace Paint5D;
 
+enum ChosenToolType
+{
+    Brush,
+    Erase,
+    Filling,
+    Pipette
+}
+
 public partial class Form1 : Form
 {
     private bool _isMouse = false;
@@ -12,10 +20,12 @@ public partial class Form1 : Form
     private Graphics? _graphics;
     private readonly Pen _pen = new(Color.Black, 3f);
     private readonly Pen _erase = new(Color.White, 12f);
-    private int _choosedTool;
+    private ChosenToolType _choosedTool;
     private Shape? _currentShape; // добавляем переменную для текущей выбранной фигуры
     private Point _startPoint;
     private Point _endPoint;
+    private Color _currentColor = Color.Black;
+    private Stack<Bitmap> history = new Stack<Bitmap>();
 
     private void SetBitMapSize()
     {
@@ -37,6 +47,23 @@ public partial class Form1 : Form
     {
         _isMouse = true;
         _startPoint = e.Location;
+        if (_choosedTool == ChosenToolType.Filling)
+        {
+            FillArea(e.Location, _currentColor);
+            pictureBox1.Invalidate(); // Перерисовываем PictureBox
+        }
+        AddToHistory(new Bitmap(_map));
+    }
+
+    private void FillArea(Point startPoint, Color fillColor)
+    {
+        if (pictureBox1.Image != null)
+        {
+            Bitmap bitmap = (Bitmap)pictureBox1.Image;
+            Color targetColor = bitmap.GetPixel(startPoint.X, startPoint.Y);
+            FloodFill.Fill(bitmap, startPoint, targetColor, fillColor);
+            pictureBox1.Refresh();
+        }
     }
 
     private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -51,6 +78,7 @@ public partial class Form1 : Form
 
             if (_currentShape is Line)
             {
+                ((Line)_currentShape).StartPoint = _startPoint;
                 ((Line)_currentShape).EndPoint = _endPoint;
             }
             else if (_currentShape is Figures.Rectangle)
@@ -80,12 +108,12 @@ public partial class Form1 : Form
             }
             else if (_currentShape is Triangle)
             {
-                // Здесь вы можете реализовать логику для создания треугольника
-                // Например, можно использовать начальную и конечную точки как вершины треугольника
+                ((Triangle)_currentShape).SideLength = 100;
             }
             else if (_currentShape is Rhomb)
             {
-                // Здесь вы можете реализовать логику для создания ромба
+                ((Rhomb)_currentShape).Width = 100;
+                ((Rhomb)_currentShape).Height = 150;
             }
 
             _currentShape.Draw(_graphics);
@@ -111,9 +139,9 @@ public partial class Form1 : Form
         {
             _arrayPoints.SetPoint(e.X, e.Y);
             if (_arrayPoints.GetPointsCount() >= 2)
-                if (_choosedTool == 1 || _choosedTool == 2)
+                if (_choosedTool == ChosenToolType.Brush || _choosedTool == ChosenToolType.Erase)
                 {
-                    _graphics.DrawLines(_choosedTool == 1 ? _pen : _erase, _arrayPoints.GetPoints());
+                    _graphics.DrawLines(_choosedTool == ChosenToolType.Brush ? _pen : _erase, _arrayPoints.GetPoints());
                     pictureBox1.Image = _map;
                     _arrayPoints.SetPoint(e.X, e.Y);
                 }
@@ -123,7 +151,8 @@ public partial class Form1 : Form
     //универсальная кнопка цветовой палитры
     private void button3_Click(object sender, EventArgs e)
     {
-        _pen.Color = ((Button)sender).BackColor;
+        _currentColor = ((Button)sender).BackColor;
+        _pen.Color = _currentColor;
     }
 
     private void button5_Click(object sender, EventArgs e) //color dialog
@@ -157,12 +186,14 @@ public partial class Form1 : Form
 
     private void button11_Click(object sender, EventArgs e)
     {
-        _choosedTool = 2;
+        _currentShape = null;
+        _choosedTool = ChosenToolType.Erase;
     }
 
     private void button12_Click(object sender, EventArgs e)
     {
-        _choosedTool = 1;
+        _currentShape = null;
+        _choosedTool = ChosenToolType.Brush;
     }
 
     private void label2_Click(object sender, EventArgs e)
@@ -171,7 +202,7 @@ public partial class Form1 : Form
 
     private void toolStripButton3_Click(object sender, EventArgs e)
     {
-        //метод удаления последней добавленной линии
+        Undo();
     }
 
     private void circle_Click(object sender, EventArgs e)
@@ -256,6 +287,87 @@ public partial class Form1 : Form
                 points[2] = _endPoint;
                 points[3] = new Point(_startPoint.X - (_endPoint.X - _startPoint.X), _startPoint.Y + (_endPoint.Y - _startPoint.Y) / 2);
                 e.Graphics.DrawPolygon(new Pen(Color.Black), points);
+            }
+        }
+    }
+
+    private void button13_Click(object sender, EventArgs e)
+    {
+        _currentShape = null;
+        _choosedTool = ChosenToolType.Filling;
+    }
+
+    private void button14_Click(object sender, EventArgs e)
+    {
+        _currentShape = null;
+        _choosedTool = ChosenToolType.Pipette;
+    }
+
+    private Color GetPixelColor(Point location)
+    {
+        if (pictureBox1.Image != null)
+        {
+            Bitmap bitmap = (Bitmap)pictureBox1.Image;
+            if (location.X >= 0 && location.X < bitmap.Width && location.Y >= 0 && location.Y < bitmap.Height)
+            {
+                return bitmap.GetPixel(location.X, location.Y);
+            }
+        }
+        return Color.Transparent; // Если пиксель за пределами изображения, возвращаем прозрачный цвет
+    }
+
+    private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+    {
+        if (_choosedTool == ChosenToolType.Pipette && e.Button == MouseButtons.Left)
+        {
+            _currentColor = GetPixelColor(e.Location);
+            _pen.Color = _currentColor;
+            button5.BackColor = _currentColor;
+        }
+    }
+
+    private void AddToHistory(Bitmap bitmap)
+    {
+        history.Push(new Bitmap(bitmap));
+    }
+
+    private void Undo()
+    {
+        if (history.Count > 0)
+        {
+            _map = new Bitmap(history.Pop());
+            pictureBox1.Image = _map;
+            _graphics.Clear(Color.White);
+            _graphics = Graphics.FromImage(_map);
+        }
+    }
+
+    private void toolStripSplitButton1_Click(object sender, EventArgs e)
+    {
+        using (OpenFileDialog openFileDialog = new OpenFileDialog())
+        {
+            openFileDialog.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF|All files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Загрузка выбранного изображения
+                    Image image = Image.FromFile(openFileDialog.FileName);
+
+                    // Отображение изображения на PictureBox
+                    pictureBox1.Image = new Bitmap(image);
+
+                    // Инициализация объекта Graphics для рисования на изображении
+                    _graphics = Graphics.FromImage(pictureBox1.Image);
+
+                    // Сохранение текущего изображения в истории
+                    AddToHistory(new Bitmap(pictureBox1.Image));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при открытии файла: {ex.Message}");
+                }
             }
         }
     }

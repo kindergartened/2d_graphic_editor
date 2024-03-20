@@ -88,6 +88,7 @@ partial class Form1
         pictureBox1.TabIndex = 0;
         pictureBox1.TabStop = false;
         pictureBox1.Paint += pictureBox1_Paint;
+        pictureBox1.MouseClick += pictureBox1_MouseClick;
         pictureBox1.MouseDown += pictureBox1_MouseDown;
         pictureBox1.MouseMove += pictureBox1_MouseMove;
         pictureBox1.MouseUp += pictureBox1_MouseUp;
@@ -110,6 +111,7 @@ partial class Form1
         toolStripSplitButton1.Name = "toolStripSplitButton1";
         toolStripSplitButton1.Size = new Size(59, 22);
         toolStripSplitButton1.Text = "Open file";
+        toolStripSplitButton1.Click += toolStripSplitButton1_Click;
         // 
         // toolStripButton1
         // 
@@ -345,6 +347,7 @@ partial class Form1
         button13.BackgroundImageLayout = ImageLayout.Stretch;
         button13.Cursor = Cursors.Hand;
         button13.FlatAppearance.BorderSize = 0;
+        button13.FlatAppearance.CheckedBackColor = SystemColors.Highlight;
         button13.FlatAppearance.MouseDownBackColor = Color.Lavender;
         button13.FlatAppearance.MouseOverBackColor = Color.Lavender;
         button13.FlatStyle = FlatStyle.Flat;
@@ -353,6 +356,7 @@ partial class Form1
         button13.Size = new Size(25, 25);
         button13.TabIndex = 16;
         button13.UseVisualStyleBackColor = true;
+        button13.Click += button13_Click;
         // 
         // button11
         // 
@@ -360,6 +364,7 @@ partial class Form1
         button11.BackgroundImageLayout = ImageLayout.Stretch;
         button11.Cursor = Cursors.Hand;
         button11.FlatAppearance.BorderSize = 0;
+        button11.FlatAppearance.CheckedBackColor = SystemColors.Highlight;
         button11.FlatAppearance.MouseDownBackColor = Color.Lavender;
         button11.FlatAppearance.MouseOverBackColor = Color.Lavender;
         button11.FlatStyle = FlatStyle.Flat;
@@ -376,6 +381,7 @@ partial class Form1
         button12.BackgroundImageLayout = ImageLayout.Stretch;
         button12.Cursor = Cursors.Hand;
         button12.FlatAppearance.BorderSize = 0;
+        button12.FlatAppearance.CheckedBackColor = SystemColors.Highlight;
         button12.FlatAppearance.MouseDownBackColor = Color.Lavender;
         button12.FlatAppearance.MouseOverBackColor = Color.Lavender;
         button12.FlatStyle = FlatStyle.Flat;
@@ -392,6 +398,7 @@ partial class Form1
         button14.BackgroundImageLayout = ImageLayout.Stretch;
         button14.Cursor = Cursors.Hand;
         button14.FlatAppearance.BorderSize = 0;
+        button14.FlatAppearance.CheckedBackColor = SystemColors.Highlight;
         button14.FlatAppearance.MouseDownBackColor = Color.Lavender;
         button14.FlatAppearance.MouseOverBackColor = Color.Lavender;
         button14.FlatStyle = FlatStyle.Flat;
@@ -400,6 +407,7 @@ partial class Form1
         button14.Size = new Size(25, 25);
         button14.TabIndex = 15;
         button14.UseVisualStyleBackColor = false;
+        button14.Click += button14_Click;
         // 
         // groupBox1
         // 
