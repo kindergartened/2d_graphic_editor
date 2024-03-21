@@ -80,11 +80,11 @@ partial class Form1
         // 
         // pictureBox1
         // 
+        pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
         pictureBox1.BackColor = Color.White;
-        pictureBox1.Dock = DockStyle.Fill;
-        pictureBox1.Location = new Point(0, 0);
+        pictureBox1.Location = new Point(0, 124);
         pictureBox1.Name = "pictureBox1";
-        pictureBox1.Size = new Size(1100, 659);
+        pictureBox1.Size = new Size(1100, 535);
         pictureBox1.TabIndex = 0;
         pictureBox1.TabStop = false;
         pictureBox1.Paint += pictureBox1_Paint;
@@ -157,6 +157,7 @@ partial class Form1
         toolStripButton4.Name = "toolStripButton4";
         toolStripButton4.Size = new Size(23, 22);
         toolStripButton4.Text = "toolStripButton4";
+        toolStripButton4.Click += toolStripButton4_Click;
         // 
         // toolStripButton5
         // 
@@ -179,15 +180,15 @@ partial class Form1
         // 
         // panel1
         // 
+        panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         panel1.BackColor = Color.Lavender;
         panel1.Controls.Add(groupBox4);
         panel1.Controls.Add(groupBox3);
         panel1.Controls.Add(groupBox2);
         panel1.Controls.Add(groupBox1);
-        panel1.Dock = DockStyle.Top;
         panel1.Location = new Point(0, 25);
         panel1.Name = "panel1";
-        panel1.Size = new Size(1100, 93);
+        panel1.Size = new Size(1100, 101);
         panel1.TabIndex = 2;
         // 
         // groupBox4
@@ -200,7 +201,7 @@ partial class Form1
         groupBox4.Controls.Add(circle);
         groupBox4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
         groupBox4.ForeColor = SystemColors.GrayText;
-        groupBox4.Location = new Point(501, 0);
+        groupBox4.Location = new Point(501, 5);
         groupBox4.Name = "groupBox4";
         groupBox4.Size = new Size(147, 93);
         groupBox4.TabIndex = 21;
@@ -308,7 +309,7 @@ partial class Form1
         groupBox3.Controls.Add(trackBar1);
         groupBox3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
         groupBox3.ForeColor = SystemColors.GrayText;
-        groupBox3.Location = new Point(323, 0);
+        groupBox3.Location = new Point(323, 5);
         groupBox3.Name = "groupBox3";
         groupBox3.Size = new Size(179, 93);
         groupBox3.TabIndex = 20;
@@ -334,7 +335,7 @@ partial class Form1
         groupBox2.Controls.Add(button14);
         groupBox2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
         groupBox2.ForeColor = SystemColors.GrayText;
-        groupBox2.Location = new Point(211, 0);
+        groupBox2.Location = new Point(211, 5);
         groupBox2.Name = "groupBox2";
         groupBox2.Size = new Size(114, 93);
         groupBox2.TabIndex = 19;
@@ -423,7 +424,7 @@ partial class Form1
         groupBox1.Controls.Add(button10);
         groupBox1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
         groupBox1.ForeColor = SystemColors.GrayText;
-        groupBox1.Location = new Point(14, 0);
+        groupBox1.Location = new Point(14, 5);
         groupBox1.Name = "groupBox1";
         groupBox1.Size = new Size(200, 93);
         groupBox1.TabIndex = 18;
@@ -575,6 +576,7 @@ partial class Form1
         Icon = (Icon)resources.GetObject("$this.Icon");
         Name = "Form1";
         Text = " NEW PAINT 2024";
+        KeyDown += Form1_KeyDown;
         ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
         toolStrip1.ResumeLayout(false);
         toolStrip1.PerformLayout();

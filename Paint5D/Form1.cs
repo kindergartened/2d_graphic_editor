@@ -13,8 +13,7 @@ enum ChosenToolType
 
 public partial class Form1 : Form
 {
-    private bool _isMouse = false;
-
+    private bool _isMouse;
     private readonly ArrayPoints _arrayPoints = new(2);
     private Bitmap _map = new(100, 100);
     private Graphics? _graphics;
@@ -25,15 +24,17 @@ public partial class Form1 : Form
     private Point _startPoint;
     private Point _endPoint;
     private Color _currentColor = Color.Black;
-    private Stack<Bitmap> history = new Stack<Bitmap>();
+    private float _currentWidth = 3f;
+    private ChangesHistory _history = new();
 
     private void SetBitMapSize()
     {
-        Rectangle rectangle = Screen.PrimaryScreen.Bounds; //определяет разрешение пользователя
-        _map = new Bitmap(rectangle.Width, rectangle.Height);
+        Rectangle screenBounds = Screen.PrimaryScreen.Bounds; //определяет разрешение пользователя
+        _map = new Bitmap(screenBounds.Width, screenBounds.Height);
         _graphics = Graphics.FromImage(_map);
         _pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
         _pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+        _history.AddToHistory(new Bitmap(_map));
     }
 
     public Form1()
@@ -52,7 +53,6 @@ public partial class Form1 : Form
             FillArea(e.Location, _currentColor);
             pictureBox1.Invalidate(); // Перерисовываем PictureBox
         }
-        AddToHistory(new Bitmap(_map));
     }
 
     private void FillArea(Point startPoint, Color fillColor)
@@ -108,15 +108,20 @@ public partial class Form1 : Form
             }
             else if (_currentShape is Triangle)
             {
-                ((Triangle)_currentShape).SideLength = 100;
+                int side1 = (int)Math.Sqrt(Math.Pow(_endPoint.X - _startPoint.X, 2) + Math.Pow(_endPoint.Y - _startPoint.Y, 2));
+                int side2 = (int)Math.Sqrt(Math.Pow(_endPoint.X - _startPoint.X, 2) + Math.Pow(_startPoint.Y - _endPoint.Y, 2));
+                int side3 = (int)Math.Sqrt(Math.Pow(_startPoint.X - _endPoint.X, 2) + Math.Pow(_startPoint.Y - _endPoint.Y, 2));
+                ((Triangle)_currentShape).SideLengths = new[] { side1, side2, side3 };
             }
             else if (_currentShape is Rhomb)
             {
-                ((Rhomb)_currentShape).Width = 100;
-                ((Rhomb)_currentShape).Height = 150;
+                int width = Math.Abs(_startPoint.X - _endPoint.X);
+                int height = Math.Abs(_startPoint.Y - _endPoint.Y);
+                ((Rhomb)_currentShape).Width = width;
+                ((Rhomb)_currentShape).Height = height;
             }
 
-            _currentShape.Draw(_graphics);
+            _currentShape.Draw(_graphics, _currentWidth, _currentColor);
             pictureBox1.Image = _map;
             _currentShape = null;
         }
@@ -124,6 +129,7 @@ public partial class Form1 : Form
         {
             _arrayPoints.ResetPoints();
         }
+        _history.AddToHistory(new Bitmap(_map));
     }
 
     private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -141,7 +147,7 @@ public partial class Form1 : Form
             if (_arrayPoints.GetPointsCount() >= 2)
                 if (_choosedTool == ChosenToolType.Brush || _choosedTool == ChosenToolType.Erase)
                 {
-                    _graphics.DrawLines(_choosedTool == ChosenToolType.Brush ? _pen : _erase, _arrayPoints.GetPoints());
+                    _graphics?.DrawLines(_choosedTool == ChosenToolType.Brush ? _pen : _erase, _arrayPoints.GetPoints());
                     pictureBox1.Image = _map;
                     _arrayPoints.SetPoint(e.X, e.Y);
                 }
@@ -166,18 +172,19 @@ public partial class Form1 : Form
 
     private void toolStripButton1_Click(object sender, EventArgs e)
     {
-        _graphics.Clear(pictureBox1.BackColor);
+        _graphics?.Clear(pictureBox1.BackColor);
         pictureBox1.Image = _map;
     }
 
     private void trackBar1_ValueChanged(object sender, EventArgs e)
     {
         _pen.Width = trackBar1.Value;
+        _currentWidth = trackBar1.Value;
     }
 
     private void toolStripButton2_Click(object sender, EventArgs e)
     {
-        saveFileDialog1.Filter = "JPG(*.JPG)|*.jpg";
+        saveFileDialog1.Filter = @"JPG(*.JPG)|*.jpg";
 
         if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             if (pictureBox1 != null)
@@ -196,13 +203,9 @@ public partial class Form1 : Form
         _choosedTool = ChosenToolType.Brush;
     }
 
-    private void label2_Click(object sender, EventArgs e)
-    {
-    }
-
     private void toolStripButton3_Click(object sender, EventArgs e)
     {
-        Undo();
+        _history.Undo(ref pictureBox1, ref _graphics, ref _map);
     }
 
     private void circle_Click(object sender, EventArgs e)
@@ -239,54 +242,62 @@ public partial class Form1 : Form
     {
         if (_currentShape != null)
         {
+            var Center = new Point((_startPoint.X + _endPoint.X) / 2, (_startPoint.Y + _endPoint.Y) / 2);
             // При перерисовке PictureBox рисуем динамическую фигуру
             if (_currentShape is Line)
             {
-                e.Graphics.DrawLine(new Pen(Color.Black), _startPoint, _endPoint);
+                e.Graphics.DrawLine(new Pen(_currentColor, _currentWidth), _startPoint, _endPoint);
             }
             else if (_currentShape is Figures.Rectangle)
             {
                 int width = Math.Abs(_startPoint.X - _endPoint.X);
                 int height = Math.Abs(_startPoint.Y - _endPoint.Y);
-                e.Graphics.DrawRectangle(new Pen(Color.Black), Math.Min(_startPoint.X, _endPoint.X),
+                e.Graphics.DrawRectangle(new Pen(_currentColor, _currentWidth), Math.Min(_startPoint.X, _endPoint.X),
                     Math.Min(_startPoint.Y, _endPoint.Y), width, height);
             }
             else if (_currentShape is Square)
             {
                 int sideLength = Math.Max(Math.Abs(_startPoint.X - _endPoint.X), Math.Abs(_startPoint.Y - _endPoint.Y));
-                e.Graphics.DrawRectangle(new Pen(Color.Black), Math.Min(_startPoint.X, _endPoint.X),
+                e.Graphics.DrawRectangle(new Pen(_currentColor, _currentWidth), Math.Min(_startPoint.X, _endPoint.X),
                     Math.Min(_startPoint.Y, _endPoint.Y), sideLength, sideLength);
             }
             else if (_currentShape is Circle)
             {
                 int radius = (int)Math.Sqrt(Math.Pow(_endPoint.X - _startPoint.X, 2) +
                                             Math.Pow(_endPoint.Y - _startPoint.Y, 2));
-                e.Graphics.DrawEllipse(new Pen(Color.Black), _startPoint.X - radius, _startPoint.Y - radius, 2 * radius,
+                e.Graphics.DrawEllipse(new Pen(_currentColor, _currentWidth), _startPoint.X - radius, _startPoint.Y - radius, 2 * radius,
                     2 * radius);
             }
             else if (_currentShape is Ellipse)
             {
                 int horizontalRadius = Math.Abs(_startPoint.X - _endPoint.X) / 2;
                 int verticalRadius = Math.Abs(_startPoint.Y - _endPoint.Y) / 2;
-                e.Graphics.DrawEllipse(new Pen(Color.Black), Math.Min(_startPoint.X, _endPoint.X),
+                e.Graphics.DrawEllipse(new Pen(_currentColor, _currentWidth), Math.Min(_startPoint.X, _endPoint.X),
                     Math.Min(_startPoint.Y, _endPoint.Y), 2 * horizontalRadius, 2 * verticalRadius);
             }
             else if (_currentShape is Triangle)
             {
-                Point[] points = new Point[3];
-                points[0] = _startPoint;
-                points[1] = new Point((_startPoint.X + _endPoint.X) / 2, _endPoint.Y);
-                points[2] = _endPoint;
-                e.Graphics.DrawPolygon(new Pen(Color.Black), points);
+                // Calculate side lengths based on start and end points (same as in MouseUp)
+                int side1 = (int)Math.Sqrt(Math.Pow(_endPoint.X - _startPoint.X, 2) + Math.Pow(_endPoint.Y - _startPoint.Y, 2));
+                int side2 = (int)Math.Sqrt(Math.Pow(_endPoint.X - _startPoint.X, 2) + Math.Pow(_startPoint.Y - _endPoint.Y, 2));
+                int side3 = (int)Math.Sqrt(Math.Pow(_startPoint.X - _endPoint.X, 2) + Math.Pow(_startPoint.Y - _endPoint.Y, 2));
+                Point point1 = new Point(Center.X, Center.Y - side1 / 2);
+                Point point2 = new Point(Center.X + side2 / 2, Center.Y + side2 / 2);
+                Point point3 = new Point(Center.X - side3 / 2, Center.Y + side3 / 2);
+                Point[] points = { point1, point2, point3 };
+                e.Graphics.DrawPolygon(new Pen(_currentColor, _currentWidth), points);
             }
             else if (_currentShape is Rhomb)
             {
-                Point[] points = new Point[4];
-                points[0] = _startPoint;
-                points[1] = new Point(_endPoint.X, _startPoint.Y + (_endPoint.Y - _startPoint.Y) / 2);
-                points[2] = _endPoint;
-                points[3] = new Point(_startPoint.X - (_endPoint.X - _startPoint.X), _startPoint.Y + (_endPoint.Y - _startPoint.Y) / 2);
-                e.Graphics.DrawPolygon(new Pen(Color.Black), points);
+                // Calculate width and height based on start and end points (same as in MouseUp)
+                int width = Math.Abs(_startPoint.X - _endPoint.X);
+                int height = Math.Abs(_startPoint.Y - _endPoint.Y);
+                Point point1 = new Point(Center.X, Center.Y - height / 2);
+                Point point2 = new Point(Center.X + width / 2, Center.Y);
+                Point point3 = new Point(Center.X, Center.Y + height / 2);
+                Point point4 = new Point(Center.X - width / 2, Center.Y);
+                Point[] points = { point1, point2, point3, point4 };
+                e.Graphics.DrawPolygon(new Pen(_currentColor, _currentWidth), points);
             }
         }
     }
@@ -326,22 +337,6 @@ public partial class Form1 : Form
         }
     }
 
-    private void AddToHistory(Bitmap bitmap)
-    {
-        history.Push(new Bitmap(bitmap));
-    }
-
-    private void Undo()
-    {
-        if (history.Count > 0)
-        {
-            _map = new Bitmap(history.Pop());
-            pictureBox1.Image = _map;
-            _graphics.Clear(Color.White);
-            _graphics = Graphics.FromImage(_map);
-        }
-    }
-
     private void toolStripSplitButton1_Click(object sender, EventArgs e)
     {
         using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -357,17 +352,39 @@ public partial class Form1 : Form
 
                     // Отображение изображения на PictureBox
                     pictureBox1.Image = new Bitmap(image);
+                    _map = new Bitmap(pictureBox1.Image);
 
                     // Инициализация объекта Graphics для рисования на изображении
-                    _graphics = Graphics.FromImage(pictureBox1.Image);
+                    _graphics = Graphics.FromImage(_map);
 
                     // Сохранение текущего изображения в истории
-                    AddToHistory(new Bitmap(pictureBox1.Image));
+                    _history.AddToHistory(new Bitmap(_map));
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ошибка при открытии файла: {ex.Message}");
                 }
+            }
+        }
+    }
+
+    private void toolStripButton4_Click(object sender, EventArgs e)
+    {
+        _history.Redo(ref pictureBox1, ref _graphics, ref _map);
+    }
+
+    private void Form1_KeyDown(object sender, KeyEventArgs e)
+    {
+        Console.WriteLine($@"{e.KeyCode}, {e.Control}");
+        if (e.Control && e.KeyCode == Keys.Z)
+        {
+            if (e.Shift)
+            {
+                _history.Redo(ref pictureBox1, ref _graphics, ref _map); // Redo
+            }
+            else
+            {
+                _history.Undo(ref pictureBox1, ref _graphics, ref _map); // Undo
             }
         }
     }

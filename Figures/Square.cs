@@ -2,13 +2,13 @@
 
 namespace Figures;
 
-public class Square : Rectangle
+public class Square : Shape
 {
     public int SideLength { get; set; }
 
-    public override void Draw(Graphics? graphics)
+    public override void Draw(Graphics? graphics, float width, Color color)
     {
         int halfSide = SideLength / 2;
-        graphics.DrawRectangle(new Pen(Color.Black), Center.X - halfSide, Center.Y - halfSide, SideLength, SideLength);
+        graphics.DrawRectangle(new Pen(color, width), Center.X - halfSide, Center.Y - halfSide, SideLength, SideLength);
     }
 }
