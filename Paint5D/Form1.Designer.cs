@@ -356,8 +356,9 @@ partial class Form1
         button13.Name = "button13";
         button13.Size = new Size(25, 25);
         button13.TabIndex = 16;
+        button13.Tag = "3";
         button13.UseVisualStyleBackColor = true;
-        button13.Click += button13_Click;
+        button13.Click += ChoseTool;
         // 
         // button11
         // 
@@ -373,8 +374,9 @@ partial class Form1
         button11.Name = "button11";
         button11.Size = new Size(25, 25);
         button11.TabIndex = 13;
+        button11.Tag = "2";
         button11.UseVisualStyleBackColor = false;
-        button11.Click += button11_Click;
+        button11.Click += ChoseTool;
         // 
         // button12
         // 
@@ -390,8 +392,9 @@ partial class Form1
         button12.Name = "button12";
         button12.Size = new Size(25, 25);
         button12.TabIndex = 14;
+        button12.Tag = "1";
         button12.UseVisualStyleBackColor = true;
-        button12.Click += button12_Click;
+        button12.Click += ChoseTool;
         // 
         // button14
         // 
@@ -407,8 +410,9 @@ partial class Form1
         button14.Name = "button14";
         button14.Size = new Size(25, 25);
         button14.TabIndex = 15;
+        button14.Tag = "4";
         button14.UseVisualStyleBackColor = false;
-        button14.Click += button14_Click;
+        button14.Click += ChoseTool;
         // 
         // groupBox1
         // 
