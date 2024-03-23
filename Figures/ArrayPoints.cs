@@ -42,12 +42,12 @@ public class ArrayPoints
     /// <summary>
     /// Метод, который возвращает текущее количество точек в массиве.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>возвращает количество точек</returns>
     public int GetPointsCount() => index;
 
     /// <summary>
     /// Метод, который возвращает массив точек.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>возвращает массив точек</returns>
     public Point[] GetPoints() => points;
 }

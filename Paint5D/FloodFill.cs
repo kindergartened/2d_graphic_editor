@@ -4,6 +4,13 @@ namespace Paint5D;
 
 public static class FloodFill
 {
+    /// <summary>
+    /// метод используется для заполнения области вокруг точки нажатия текущим цветом.
+    /// </summary>
+    /// <param name="bitmap">изображение, на котором будет производиться заполнение</param>
+    /// <param name="startPoint">это точка, вокруг которой будет производиться заполнение</param>
+    /// <param name="targetColor">это цвет, который будет заменен на fillColor</param>
+    /// <param name="fillColor">цвет, которым будет заполнена область вокруг startPoint</param>
     public static void Fill(Bitmap bitmap, Point startPoint, Color targetColor, Color fillColor)
     {
         int width = bitmap.Width;
@@ -18,7 +25,6 @@ public static class FloodFill
 
         // Получаем целочисленные представления цветов
         int targetArgb = targetColor.ToArgb();
-        int fillArgb = fillColor.ToArgb();
 
         // Пока очередь не пуста
         while (queue.Count > 0)
